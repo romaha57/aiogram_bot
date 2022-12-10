@@ -2,6 +2,7 @@ import json
 from typing import Dict
 
 import requests
+from loguru import logger
 
 import config
 from utils.transform_weather_params import get_name_location, get_pretty_pressure,\
@@ -16,6 +17,7 @@ def get_request_to_weather_api(lat: float, lon: float) -> (False, str):
     url = f'https://api.openweathermap.org/data/2.5/weather?lat=' \
           f'{lat}&lon={lon}&appid={api_key}&lang=ru&units=metric'
 
+    logger.debug('отправляем get запрос к api openweathermap.org')
     response = requests.get(url)
     if response.status_code == 200:
         data = json.loads(response.text)
@@ -23,6 +25,7 @@ def get_request_to_weather_api(lat: float, lon: float) -> (False, str):
         return weather_params
     else:
         # если не удалось подключиться к сервису
+        logger.warning('не удалось подключиться к openweathermap.org(code != 200)')
         return False
 
 

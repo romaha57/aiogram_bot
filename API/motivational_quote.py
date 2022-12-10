@@ -1,5 +1,6 @@
 import requests
 from googletrans import Translator
+from loguru import logger
 
 
 def get_request_to_api_motivations() -> (False, str):
@@ -17,12 +18,14 @@ def get_request_to_api_motivations() -> (False, str):
         "X-RapidAPI-Host": "motivational-quotes1.p.rapidapi.com"
     }
 
+    logger.debug('отправляем post запрос к api motivational-quotes1.p.rapidapi.com')
     response = requests.post(url, json=payload, headers=headers)
     if response.status_code == 200:
         data = response.text
         trans_quote = translate_quote(data)
         return trans_quote
     else:
+        logger.warning('не удалось подключиться к motivational-quotes1.p.rapidapi.com(code != 200)')
         return False
 
 

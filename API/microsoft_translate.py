@@ -2,6 +2,7 @@ import json
 from typing import Dict
 
 import requests
+from loguru import logger
 
 from utils.define_translation_params import define_lang, define_querystring_based_on_lang_code
 
@@ -21,6 +22,7 @@ def get_request_to_translate_api(text_for_translate: str) -> (False, str):
 
 	payload = [{"Text": f"{text_for_translate}"}]
 
+	logger.debug('отправляем post запрос к api microsoft-translator-text')
 	response = requests.post(url, json=payload, headers=headers, params=querystring)
 	if response.status_code == 200:
 		data = json.loads(response.text)
@@ -28,6 +30,7 @@ def get_request_to_translate_api(text_for_translate: str) -> (False, str):
 													data=data)
 		return answer
 	else:
+		logger.warning('не удалось подключиться к microsoft-translator-text(code != 200)')
 		return False
 
 
