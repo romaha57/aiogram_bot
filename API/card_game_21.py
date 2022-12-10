@@ -31,7 +31,6 @@ def get_more_one_card() -> (str, bool):
     response = requests.get(url)
     try:
         deck = json.loads(response.text)
-
     # если ошибка декодирования json, то возвращаем False и
     # пишем пользователю о недоступности сервера
     except JSONDecodeError:
