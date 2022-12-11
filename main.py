@@ -8,5 +8,5 @@ from utils.logging import run_logging
 register_handlers(dp=dp)
 
 if __name__ == '__main__':
-    run_ligging()
+    run_logging()
     executor.start_polling(dispatcher=dp, skip_updates=True)
